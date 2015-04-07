@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:layout_width="380dp"
+    p1:layout_height="242.25dp"
+    p1:layout_gravity="center"
+    p1:layout_margin="20dp">
+    <ImageView
+        p1:src="@drawable/card_background"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/imageView1" />
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/linearLayout1">
+        <TextView
+            p1:text="@string/card_title"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/card_title"
+            p1:textStyle="bold"
+            p1:textColor="#ff937777"
+            p1:textSize="26dp"
+            p1:layout_gravity="left"
+            p1:layout_marginLeft="20dp"
+            p1:layout_marginTop="20dp" />
+        <TextView
+            p1:text="Account Number"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/card_account_label"
+            p1:textColor="#ff937777"
+            p1:textStyle="bold"
+            p1:textSize="15dp"
+            p1:layout_marginLeft="20dp"
+            p1:layout_marginTop="50dp" />
+        <TextView
+            p1:text="Waiting..."
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/card_account_field"
+            p1:textColor="#ff937777"
+            p1:textStyle="bold"
+            p1:textSize="20dp"
+            p1:layout_marginTop="50dp"
+            p1:layout_marginLeft="20dp" />
+    </LinearLayout>
+</FrameLayout>

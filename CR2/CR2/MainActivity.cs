@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Android.App;
 using Android.Bluetooth;
 using Android.Content;
@@ -28,8 +29,8 @@ namespace CR2 {
 		public const string TAG = "MainActivity";
 
 		// Whether the Log Fragment is currently shown
-		private bool mLogShown;
-		private TextView mAccountField;
+		//private bool mLogShown;
+		//private TextView mAccountField;
 
 		private const bool Debug = true;
 
@@ -64,7 +65,7 @@ namespace CR2 {
 		// Member object for the chat services
 		public static BluetoothChatService chatService = null;
 
-
+		public LoyaltyCardReader _reader = null;
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -74,6 +75,8 @@ namespace CR2 {
 			CardReaderFragment fragment = new CardReaderFragment();
 			transaction.Replace(Resource.Id.sample_content_fragment, fragment);
 			transaction.Commit();
+
+			_reader = fragment.mLoyaltyCardReader;
 
 			// Get local Bluetooth adapter
 			bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
@@ -145,6 +148,8 @@ protected override void OnStart ()
 	if (Debug)
 		Android.Util.Log.Error (TAG, "++ ON START ++");
 
+	File.AppendAllText(@"/sdcard/log.txt", TAG + ": OnStart");
+
 	// If BT is not on, request that it be enabled.
 	// setupChat() will then be called during onActivityResult
 	if (!bluetoothAdapter.IsEnabled) {
@@ -183,7 +188,7 @@ private void SetupChat ()
 	conversationView.Adapter = conversationArrayAdapter;
 
 	// Initialize the BluetoothChatService to perform bluetooth connections
-	chatService = new BluetoothChatService (this, new MyHandler (this));
+	chatService = new BluetoothChatService (this, new MyHandler (this), _reader);
 
 	// Initialize the buffer for outgoing messages
 	outStringBuffer = new StringBuffer ("");

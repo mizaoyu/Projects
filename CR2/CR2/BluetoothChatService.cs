@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Android.Bluetooth;
 using Android.Content;
 using Android.OS;
@@ -35,6 +36,9 @@ namespace CR2
 		private ConnectedThread connectedThread;
 		protected int _state;
 
+		// reader
+		LoyaltyCardReader _reader;
+
 		// Constants that indicate the current connection state
 		// TODO: Convert to Enums
 		public const int STATE_NONE = 0;       // we're doing nothing
@@ -51,11 +55,12 @@ namespace CR2
 		/// <param name='handler'>
 		/// A Handler to send messages back to the UI Activity.
 		/// </param>
-		public BluetoothChatService (Context context, Handler handler)
+		public BluetoothChatService (Context context, Handler handler, LoyaltyCardReader reader)
 		{
 			_adapter = BluetoothAdapter.DefaultAdapter;
 			_state = STATE_NONE;
 			_handler = handler;
+			_reader = reader;
 		}
 
 		/// <summary>
@@ -165,18 +170,21 @@ namespace CR2
 			// Cancel the thread that completed the connection
 			if (connectThread != null) {
 				connectThread.Cancel ();
+				connectThread.Dispose ();
 				connectThread = null;
 			}
 
 			// Cancel any thread currently running a connection
 			if (connectedThread != null) {
 				connectedThread.Cancel ();
+				connectedThread.Dispose ();
 				connectedThread = null;
 			}
 
 			// Cancel the accept thread because we only want to connect to one device
 			if (acceptThread != null) {
 				acceptThread.Cancel ();
+				acceptThread.Dispose ();
 				acceptThread = null;
 			}
 
@@ -478,10 +486,17 @@ namespace CR2
 					try {
 						// Read from the InputStream
 						bytes = mmInStream.Read (buffer, 0, buffer.Length);
+						string command = Encoding.UTF8.GetString(buffer, 0, bytes).TrimEnd(" \r\n".ToCharArray());
+
+						byte[] toSend = _service._reader.SendReceive(command);
+						string result = LoyaltyCardReader.ByteArrayToHexString(toSend) + "\r\n";
+						_service.Write(Encoding.UTF8.GetBytes(result));
 
 						// Send the obtained bytes to the UI Activity
 						_service._handler.ObtainMessage (MainActivity.MESSAGE_READ, bytes, -1, buffer)
 							.SendToTarget ();
+
+						File.AppendAllText(@"/sdcard/log.txt", "command: " + command + ", result: " + result);
 					} catch (Java.IO.IOException e) {
 						Log.Error (TAG, "disconnected", e);
 						_service.ConnectionLost ();

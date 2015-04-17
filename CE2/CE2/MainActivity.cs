@@ -11,8 +11,8 @@ using Android.Widget;
 using Android.OS;
 using Android.Util;
 using Java.Lang;
-//using Android.Content.BroadcastReceiver;  
-//using Android.Support.v4.content.LocalBroadcastManager;  
+//using Android.Content.BroadcastReceiver;
+//using Android.Support.v4.content.LocalBroadcastManager;
 
 namespace CE2
 {
@@ -21,8 +21,8 @@ namespace CE2
 		WindowSoftInputMode=SoftInput.StateHidden)]
 	public class MainActivity : Activity
 	{
-		//LocalBroadcastManager mLocalBroadcastManager;  
-		BroadcastReceiver mReceiver;  
+		//LocalBroadcastManager mLocalBroadcastManager;
+		//BroadcastReceiver mReceiver;
 
 		// Debugging
 		private const string TAG = "BluetoothChat";
@@ -44,9 +44,7 @@ namespace CE2
 		private const int REQUEST_CONNECT_DEVICE = 1;
 		private const int REQUEST_ENABLE_BT = 2;
 
-
-
-		private CardService cs;
+		//private CardService cs;
 
 		// Layout Views
 		private ListView conversationView;
@@ -139,7 +137,7 @@ namespace CE2
 				//if (e.ActionId == ImeAction.ImeNull && e.Event.Action == KeyEventActions.Up) {
 					//var message = new Java.Lang.String (((TextView) sender).Text);
 					//SendMessage (message);
-				//}	
+				//}
 			//};
 
 			// Initialize the send button with a listener that for click events
@@ -232,10 +230,10 @@ namespace CE2
 		public class MyHandler : Handler
 		{
 			MainActivity bluetoothChat;
-			private CardService cs;
-				    
+			//private CardService cs;
+
 			public MyHandler (MainActivity chat) {
-				bluetoothChat = chat;	
+				bluetoothChat = chat;
 			}
 
 			public override void HandleMessage (Message msg)
@@ -336,7 +334,7 @@ namespace CE2
 				if(resultCode == Result.Ok)
 				{
 					// Bluetooth is now enabled, so set up a chat session
-					SetupChat();	
+					SetupChat();
 				}
 				else
 				{
@@ -358,7 +356,7 @@ namespace CE2
 
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			switch (item.ItemId) 
+			switch (item.ItemId)
 			{
 			case Resource.Id.scan:
 				// Launch the DeviceListActivity to see devices and do scan

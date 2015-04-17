@@ -1,11 +1,13 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Android.Bluetooth;
 using Android.Content;
 using Android.OS;
 using Android.Util;
 using Java.Lang;
 using Java.Util;
+using Android.Nfc.CardEmulators;
 
 namespace CE2
 {
@@ -34,6 +36,9 @@ namespace CE2
 		protected ConnectThread connectThread;
 		private ConnectedThread connectedThread;
 		protected int _state;
+
+		// Race condition, use messaging maybe
+		public static HostApduService ApduHost;
 
 		// Constants that indicate the current connection state
 		// TODO: Convert to Enums
@@ -488,6 +493,13 @@ namespace CE2
 						// Send the obtained bytes to the UI Activity
 						_service._handler.ObtainMessage (MainActivity.MESSAGE_READ, bytes, -1, buffer)
 							.SendToTarget ();
+
+						// todo fix race
+						if (BluetoothChatService.ApduHost != null)
+						{
+							string command = Encoding.UTF8.GetString(buffer, 0, bytes).TrimEnd("\r\n ".ToCharArray());
+							BluetoothChatService.ApduHost.SendResponseApdu(CardService.HexStringToByteArray(command));
+						}
 					} catch (Java.IO.IOException e) {
 						Log.Error (TAG, "disconnected", e);
 						_service.ConnectionLost ();

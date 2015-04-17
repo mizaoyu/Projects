@@ -19,9 +19,9 @@ namespace CE2
 {
 	[Service(Exported=true, Enabled=true, Permission="android.permission.BIND_NFC_SERVICE"),
 		IntentFilter(new []{"android.nfc.cardemulation.action.HOST_APDU_SERVICE"}),
-		MetaData( "android.nfc.cardemulation.host_apdu_service", 
+		MetaData( "android.nfc.cardemulation.host_apdu_service",
 			Resource = "@xml/hceservice")]
-	public class CardService : HostApduService 
+	public class CardService : HostApduService
 	{
 		private const string SAMPLE_LOYALTY_CARD_AID = "F222222222";
 		// ISO-DEP command HEADER for selecting an AID.
@@ -33,35 +33,39 @@ namespace CE2
 		private readonly byte[] UNKNOWN_CMD_SW = HexStringToByteArray("0000");
 		private readonly byte[] SELECT_APDU = BuildSelectApdu(SAMPLE_LOYALTY_CARD_AID);
 
+		private bool _checkAID = false;
+
 		private MainReceiver mReceiver;
+
+		// Card emulation is half duplex
+		public bool Muted;
 
 		public override void OnCreate() {
 			base.OnCreate ();
 			Console.WriteLine ();
+			Muted = true;
+			BluetoothChatService.ApduHost = this;
 			mReceiver = new MainReceiver()
 			{
-				SendApdu = (s) =>
-				{
-					SendResponseApdu (Encoding.UTF8.GetBytes(s));
-				}
+				SendApdu = (s) => SendResponseApdu (Encoding.UTF8.GetBytes (s))
 			};
 			RegisterReceiver(mReceiver, new IntentFilter("CE2.cardservice.sendApdu"));
+			Console.WriteLine ("{0} CardService OnCreate", DateTime.UtcNow.Ticks);
 		}
-			
 
-
-		public override void OnDeactivated(DeactivationReason reason) 
+		public override void OnDeactivated(DeactivationReason reason)
 		{
 			UnregisterReceiver(mReceiver);
-
-			return;
+			Muted = true;
+			BluetoothChatService.ApduHost = null;
+			Console.WriteLine ("{1} Deactivated:{0}", reason, DateTime.UtcNow.Ticks);
 		}
 
-		public override byte[] ProcessCommandApdu(byte[] commandApdu, Bundle extras) 
+		public override byte[] ProcessCommandApdu(byte[] commandApdu, Bundle extras)
 		{
 			Console.WriteLine ("Received APDU:{0}",ByteArrayToHexString(commandApdu));
 			Console.WriteLine ("SELECT_APDU:{0}",ByteArrayToHexString(SELECT_APDU));
-			//Android.OS.Debug.WaitForDebugger(); 
+			//Android.OS.Debug.WaitForDebugger();
 			bool arrayEquals;
 			if (SELECT_APDU.Length == commandApdu.Length) {
 				arrayEquals = true;
@@ -74,18 +78,31 @@ namespace CE2
 			} else {
 				arrayEquals = false;
 			}
-			MainActivity.chatService.Write (Encoding.UTF8.GetBytes(ByteArrayToHexString(commandApdu)));
-			Console.WriteLine ("arrayEquals:{0}",arrayEquals);
-			if (arrayEquals) {
-				Console.WriteLine ("aaa");
-				string account = AccountStorage.GetAccount (this);
-				byte[] accountBytes = Encoding.UTF8.GetBytes (account);
 
-				MainActivity.chatService.Write (Encoding.UTF8.GetBytes(ByteArrayToHexString(commandApdu)));
-				//return null;
-				return ConcatArrays (accountBytes, SELECT_OK_SW);
+			//MainActivity.chatService.Write (Encoding.UTF8.GetBytes(ByteArrayToHexString(commandApdu)));
+			//Console.WriteLine ("arrayEquals:{0}",arrayEquals);
+			if (!_checkAID || arrayEquals) {
+				//string account = AccountStorage.GetAccount (this);
+				//byte[] accountBytes = Encoding.UTF8.GetBytes (account);
+
+				string command = ByteArrayToHexString (commandApdu) + "\r\n";
+				MainActivity.chatService.Write (Encoding.UTF8.GetBytes(command));
+				Console.Write (command);
+
+				// allow send response
+				Muted = false;
+				return null;
+				//return ConcatArrays (accountBytes, SELECT_OK_SW);
 			} else {
 				return UNKNOWN_CMD_SW;
+			}
+		}
+
+		public void SendResponse(byte[] res)
+		{
+			if (!Muted) {
+				Muted = true;
+				SendResponseApdu (res);
 			}
 		}
 

@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="CR2.CR2">
-	<uses-sdk android:minSdkVersion="19" />
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="19" />
 	<application android:label="CR2" android:icon="@drawable/icon"></application>
 	<uses-permission android:name="android.permission.NFC" />
 	<uses-feature android:name="android.hardware.nfc" android:required="true" />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

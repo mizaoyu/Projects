@@ -19,6 +19,10 @@ namespace CR2
 	 */
 	public class CardReaderFragment : Fragment, LoyaltyCardReader.AccountCallback
 	{
+		public CardReaderFragment()
+		{
+			mLoyaltyCardReader = new LoyaltyCardReader ();
+		}
 
 		public string TAG {
 			get { return "CardReaderFragment"; }
@@ -43,8 +47,6 @@ namespace CR2
 			if (v != null) {
 				mAccountField = (TextView) v.FindViewById(Resource.Id.card_account_field);
 				mAccountField.Text = "Waiting...";
-
-				mLoyaltyCardReader = new LoyaltyCardReader (new WeakReference<LoyaltyCardReader.AccountCallback>(this));
 
 				// Disable Android Beam and register our card reader callback
 				EnableReaderMode ();

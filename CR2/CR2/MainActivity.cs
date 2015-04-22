@@ -148,7 +148,7 @@ protected override void OnStart ()
 	if (Debug)
 		Android.Util.Log.Error (TAG, "++ ON START ++");
 
-	File.AppendAllText(@"/sdcard/log.txt", TAG + ": OnStart");
+	File.AppendAllText(@"/sdcard/log.txt", TAG + ": OnStart\n");
 
 	// If BT is not on, request that it be enabled.
 	// setupChat() will then be called during onActivityResult

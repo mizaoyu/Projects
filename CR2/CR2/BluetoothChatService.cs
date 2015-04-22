@@ -7,6 +7,8 @@ using Android.OS;
 using Android.Util;
 using Java.Lang;
 using Java.Util;
+using System.Collections.Generic;
+using System;
 
 namespace CR2
 {
@@ -454,6 +456,7 @@ namespace CR2
 			private Stream mmInStream;
 			private Stream mmOutStream;
 			private BluetoothChatService _service;
+			private List<string> LogLines = new List<string>();
 
 			public ConnectedThread (BluetoothSocket socket, BluetoothChatService service)
 			{
@@ -480,6 +483,7 @@ namespace CR2
 				Log.Info (TAG, "BEGIN mConnectedThread");
 				byte[] buffer = new byte[1024];
 				int bytes;
+				LogLines.Clear ();
 
 				// Keep listening to the InputStream while connected
 				while (true) {
@@ -496,10 +500,12 @@ namespace CR2
 						_service._handler.ObtainMessage (MainActivity.MESSAGE_READ, bytes, -1, buffer)
 							.SendToTarget ();
 
-						File.AppendAllText(@"/sdcard/log.txt", "command: " + command + ", result: " + result);
+						LogLines.Add(string.Format("{0},{1},{2}", DateTime.UtcNow.Ticks, command, result));
 					} catch (Java.IO.IOException e) {
 						Log.Error (TAG, "disconnected", e);
 						_service.ConnectionLost ();
+
+						File.AppendAllLines(@"/sdcard/log.txt", LogLines);
 						break;
 					}
 				}

@@ -8,7 +8,8 @@
     <script>
         $(document).ready(function () {
             var r = window.location.search.split('=');
-            var paymentid = r[1];
+            var paymentid = r[1].split('&')[0];
+            var pricetotal = r[2];
       
             $.ajax({
                 type: "POST",
@@ -16,13 +17,13 @@
                 url: 'http://' + location.host + '/api/v1/payments/' + paymentid,
                 contentType: "application/json",
                 success: function (data, textStatus) {
-                    // alert(data);
+                    window.location.replace("onepay://?id=" + paymentid+"&price="+pricetotal);
+                    //alert(data.EmailAddress);
                 },
                 error: function (e) {
-                    alert("Checkout failed! Error Message:{0}", e);
+                    alert("Checkout failed! Error Message:{0}", e.message);
                 }
             });
-            window.location.replace("onepay://" + paymentid);
         });
     </script>
 </head>

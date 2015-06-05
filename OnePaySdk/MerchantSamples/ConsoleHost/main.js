@@ -96,7 +96,7 @@ app.post("/api/cart/post", function cart$post(req, res) {
 app.post("/api/payment/post", function payment$creat(req, res, next) {
     var postData = JSON.stringify(req.body);
     var options = {
-        hostname: 'shacsd3600',
+        hostname: 'localhost',
         port: 9001,
         path: '/api/v1/payments/create',
         method: 'POST',

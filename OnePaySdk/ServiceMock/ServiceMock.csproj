@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <RunCodeAnalysis Condition=" '$(RunCodeAnalysis)' == ''">true</RunCodeAnalysis>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{998FAC8E-E5AA-4F8F-A63C-F93D1D4044D9}</ProjectGuid>
@@ -12,62 +12,67 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
   <PropertyGroup>
-    <OutDir>$(INETROOT)\target\$(BuildType)\$(_BuildArch)\OnePaySdk\ServiceMock\</OutDir>
-    <OutputPath>$(INETROOT)\target\$(BuildType)\$(_BuildArch)\OnePaySdk\ServiceMock\</OutputPath>
+    <INETROOT Condition=" '$(INETROOT)' == '' ">c:\code</INETROOT>
+    <OutDir>$(INETROOT)\target\$(Configuration)\$(Platform)\OnePaySdk\ServiceMock\</OutDir>
+    <OutputPath>$(INETROOT)\target\$(Configuration)\$(Platform)\OnePaySdk\ServiceMock\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Owin">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.FileSystems">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.Owin.FileSystems.2.1.0\lib\net40\Microsoft.Owin.FileSystems.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.Owin.FileSystems.2.1.0\lib\net40\Microsoft.Owin.FileSystems.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Hosting">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.StaticFiles">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.Owin.StaticFiles.2.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.Owin.StaticFiles.2.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\temp\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>$(INETROOT)\temp\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
-      <HintPath>$(INETROOT)\temp\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Cors">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.AspNet.Cors.5.1.2\lib\net45\System.Web.Cors.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.AspNet.Cors.5.1.2\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Cors">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.AspNet.WebApi.Cors.5.1.2\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.AspNet.WebApi.Cors.5.1.2\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Owin">
-      <HintPath>$(INETROOT)\temp\packages\Microsoft.AspNet.WebApi.Owin.5.1.2\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <HintPath>$(INETROOT)\onepaysdk\packages\Microsoft.AspNet.WebApi.Owin.5.1.2\lib\net45\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -118,5 +123,5 @@
     </Content>
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(INETROOT)\build\msbuild\csharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

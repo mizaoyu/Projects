@@ -62,7 +62,7 @@ namespace Microsoft.OnePay.Controllers
 
             return new CreatePaymentResponse
             {
-                OnePayCheckoutUri = "http://localhost:9001/Content/LaunchUAP.html?id=" + paymentId,
+                OnePayCheckoutUri = "http://localhost:9001/Content/LaunchUAP.html?id=" + paymentId + "&price=" + request.TransactionTotal,
                 PaymentId = paymentId,
             };
         }

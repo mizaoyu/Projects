@@ -1,0 +1,11 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$(EnvironmentConfig)" />
+  
+  <ItemGroup>
+    <ProjectFile Include="ConsoleHost\ConsoleHost.csproj" />
+  </ItemGroup>
+  
+  <Import Project="$(ExtendedTargetsPath)\Traversal.targets" />
+
+</Project>

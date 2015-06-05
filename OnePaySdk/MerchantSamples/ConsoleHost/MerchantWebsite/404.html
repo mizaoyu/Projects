@@ -1,0 +1,120 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EAGLECLOTHES Bootstarp responsive Website Template| 404 :: w3layouts</title>
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/demo1.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--webfont-->
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,200,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!-- JavaScript includes -->
+    <script src="js/ipresenter.packed.js"></script>
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    var uri = 'http://' + location.host + '/api/cart/getcount';
+
+    $(document).ready(function () {
+        $.ajaxSetup({ cache: false });
+        // Send an AJAX request
+        $.getJSON(uri)
+            .done(function (data) {
+                //var ItemNumber = data;
+                $("a[href='checkout.html']").html("Cart (" + data + ")");
+
+            });
+    });
+    </script>
+
+</head>
+<body>
+    <!-- header-section-starts -->
+    <div class="user-desc">
+        <div class="container">
+            <ul>
+                <li><i class="user"></i><a href="account.html">My Account</a></li>
+                <li><i class="cart"></i><a href="checkout.html"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="images/logo.png" alt="" /></a>
+                </div>
+                <div class="top-menu">
+                    <span class="menu"> </span>
+                    <ul class="cl-effect-15">
+                        <li><a href="index.html" data-hover="HOME">HOME</a></li>        
+                        <li><a href="products.html" data-hover="PRODUCTS">PRODUCTS</a></li>    
+                        <li><a href="contact.html" data-hover="CONTACT">CONTACT</a></li>
+                    </ul>
+                </div>
+                <!--script-nav-->
+                <script>
+                    $("span.menu").click(function () {
+                        $(".top-menu ul").slideToggle("slow", function () {
+                        });
+                    });
+                </script>
+                <!--script-nav-->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- header-section-ends -->
+    <!-- content-section-starts -->
+    <div class="container">
+        <div class="title">
+            <h2>Found Nothing</h2>
+            <h3>404 Error!</h3>
+        </div>
+        <div class="gray">
+            <a href="index.html" class="ag-3d_button orange">Go to home page </a>
+        </div>
+    </div>
+    </div>
+    <!-- content-section-ends -->
+    <!-- footer-section-starts -->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-6 bottom-menu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="#">PORTFOLIO</a></li>
+                    <li><a href="#">SITEMAP</a></li>
+                    <li><a href="contact.html"> CONTACT</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 copy-rights">
+                <p>&copy; 2015 Template by <a href="http://w3layouts.com" target="target_blank">W3layouts</a></p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- footer-section-ends -->
+</body>
+</html>
